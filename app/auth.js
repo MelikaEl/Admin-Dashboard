@@ -26,7 +26,7 @@ const login = async (credentials) => {
   }
 };
 
-export const { signIn, signOut, auth } = NextAuth({
+export const { handlers,signIn, signOut, auth } = NextAuth({
   ...authConfig,
   providers: [
     CredentialsProvider({
@@ -35,6 +35,7 @@ export const { signIn, signOut, auth } = NextAuth({
           const user = await login(credentials);
           return user;
         } catch (err) {
+          console.log("Auth error:", err);
           return null;
         }
       },
@@ -46,6 +47,7 @@ export const { signIn, signOut, auth } = NextAuth({
       if (user) {
         token.username = user.username;
         token.img = user.img;
+        token.isAdmin = user.isAdmin;
       }
       return token;
     },
@@ -53,6 +55,7 @@ export const { signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.username = token.username;
         session.user.img = token.img;
+        session.user.isAdmin = token.isAdmin;
       }
       return session;
     },

@@ -1,8 +1,9 @@
 export const authConfig = {
-  providers:[],
   pages: {
     signIn: "/login",
+    error: "/error",
   },
+  providers:[],
   callbacks: {
     authorized({ auth, request }) {
       const isLoggedIn = auth?.user;
@@ -10,11 +11,9 @@ export const authConfig = {
       if (isOnDashboard) {
         if (isLoggedIn) return true;
         return false;
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL("/dashboard", request.nextUrl));
       }
       return true;
     },
   },
-  // secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
 };
